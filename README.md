@@ -1,5 +1,15 @@
 # CLIPort
 
+## This is Ashtin Gold's forked repository for CLIPort
+(Last update: April 6 2025)
+
+I am adding real world data collection scripts to this framework. I am also updating some clarifying comments about the code structure for usability.
+
+I will also update instructions on setting up a conda environment for this project (accurate as of early April 2025).
+
+
+---
+
 [**CLIPort: What and Where Pathways for Robotic Manipulation**](https://arxiv.org/pdf/2109.12098.pdf)  
 [Mohit Shridhar](https://mohitshridhar.com/), [Lucas Manuelli](http://lucasmanuelli.com/), [Dieter Fox](https://homes.cs.washington.edu/~fox/)  
 [CoRL 2021](https://www.robot-learning.org/) 
