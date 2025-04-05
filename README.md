@@ -7,6 +7,8 @@ I am adding real world data collection scripts to this framework. I am also upda
 
 I will also update instructions on setting up a conda environment for this project (accurate as of early April 2025).
 
+![image](https://github.com/user-attachments/assets/54e0c07f-17a1-46a4-b101-aeb1a5454946)
+
 
 ---
 
