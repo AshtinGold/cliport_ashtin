@@ -1,16 +1,15 @@
 """ Created by: King Hang Wong
-    Last update: Apr 4
+    Last update: Apr 11
+    Date created : Apr 4
     Desc:   This script creates real-world demonstration data for CLIPort, saving them as episodes.
             Episodes contain tuples of (obs, action, reward=0, info)
-    Logic is based on cliport::cliport::demos.py, but highly modified
+    Logic is based on cliport::cliport::demos.py, but script is highly original.
 
 
     # README:
-    #
     # This script creates training dataset from ready real-world demonstrations.
-    # WARNING: Action poses (i.e. act) should be given in terms of the XXX coordinate frame.
-    # If raw, please process action poses using the `process_poses()` function before saving to episodes.
-    # Observations (rgb, depth) will be properly formatted in this script.
+    # WARNING: Action poses (i.e. act) should be given in terms of the Fixed (or base-link) coordinate frame.
+    # Observations (rgb, depth) will be properly formatted in this script. Orthographic height map is obtained by subsequent CLIPort processing (IOW. not part of this script)
 
 """
 
@@ -34,11 +33,11 @@ import json
 
 ### add functions ###
 
-class QuickMetainfo:
+class Metainfo:
     """ Feel free to modify these"""
     BOUNDS = 
-    PIX_SIZE =
-    DATA_DIR = 
+    PIX_SIZE = 
+    DATA_DIR = r'/home/khw/Documents/demonstration_data/all_episodes'
 
 class QuickUtils:
     """ Date : Apr 5"""
@@ -70,7 +69,7 @@ class QuickUtils:
 
     @staticmethod
     def get_observation(colors, depths, i)->dict[str, Tuple[np.ndarray]]:
-        """ Returns color and depth observation in seamless cliport format"""
+        """ Returns color and depth images in seamless cliport format"""
 
         obs = {'color': (), 'depth': ()}
 
@@ -110,7 +109,7 @@ class QuickUtils:
 #### End ####
 
 # @hydra.main(config_path='./cfg', config_name='data')
-# TO-DO: remove hydra dependecy
+# TO-DO: look to remove hydra dependecy
 @hydra.main(config_path='./cfg', config_name='mydata')
 def main(cfg):
 
@@ -143,21 +142,18 @@ def main(cfg):
     #
     # Sample episode file structure:
     ###
-    # data/
-    # │── episode_1/
-    # │   ├── rgb/
-    #         ├── img_1.png
-    # │   ├── depth
-    #         ├── img_1.png
-    # │   ├── segm
-    #         ├── img_1.png
-    # │   ├── actions.txt
+    # all_episodes/
+    # │── episode_001/
+    # │   ├── rgb.png
+    # │   ├── depth.png
+    # │   ├── poses.txt
     #
-    # │── episode_2/
+    # │── episode_002/
     # │   ├── ...
     ###
+    ### Due to time-constraints, we will use a stupid design of creating a new txtfile in each episode folder.
     
-    episode_folders = sorted(glob(os.path.join(QuickMetainfo.DATA_DIR, "episode_*")))
+    episode_folders = sorted(glob(os.path.join(Metainfo.DATA_DIR, "episode_*")))
 
     relevant_color_names = cfg['relevant_color_names']   ## 2 at most in set-up
     if len(relevant_color_names) == 2:

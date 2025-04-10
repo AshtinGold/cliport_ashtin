@@ -144,9 +144,14 @@ class Task():
                 obj_quat = utils.eulerXYZ_to_quatXYZW((0, 0, obj_euler[2]))
                 obj_pose = (obj_pose[0], obj_quat)
             world_to_pick = utils.invert(pick_pose)
-            obj_to_pick = utils.multiply(world_to_pick, obj_pose)
-            pick_to_obj = utils.invert(obj_to_pick)
-            place_pose = utils.multiply(targ_pose, pick_to_obj)
+            obj_to_pick = utils.multiply(world_to_pick, obj_pose)  # object pose relative to pick pose  ### same pose?
+            pick_to_obj = utils.invert(obj_to_pick)  #  pick pose relative to object pose
+            place_pose = utils.multiply(targ_pose, pick_to_obj)   # target location pose relative to object pose
+            ##
+            ## hypothesis : place_pose is in world frame.
+            ## Why not just use targ_pose?  Because robot may have picked up object in a certain angle/orientation.
+            ## By preserving that relative transform (pick_to_obj), we ensure the object is placed at targ_pose while keeping its pick-time grasp configuration.
+            ### For our experiments, we will directly use targ_pose.
 
             # Rotate end effector?
             if not rotations:
